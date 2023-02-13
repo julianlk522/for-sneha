@@ -14,7 +14,8 @@ body {
 body {
 	line-height: 1.5;
 	display: flex;
-	padding-left: 4ch;
+	/* only use on msg3
+	padding-left: 4ch; */
 }
 
 pre {
