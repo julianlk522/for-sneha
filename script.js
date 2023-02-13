@@ -1,4 +1,6 @@
-const msg = `,ggg,      gg      ,gg                                                                                                                   
+const preElement = document.querySelector('pre')
+
+const msg1 = `,ggg,      gg      ,gg                                                                                                                   
 dP\"\"Y8a     88     ,8P       ,dPYb, ,dPYb,                                             ,dPYb,                                     
 Yb, \`88     88     d8'       IP'\`Yb IP'\`Yb                                             IP'\`Yb                                    
  \`\"  88     88     88   gg   I8  8I I8  8I                                             I8  8I                                    
@@ -31,15 +33,27 @@ Yb, \`88     88     d8'       IP'\`Yb IP'\`Yb                                   
                       \`8, ,8I                                                                                                      
                        \`Y8P\"       `
 
-const msgLineByLine = msg.split('\n')
+function groupWhiteSpaces(msg) {
+	const splitMsg = msg.split('')
 
-let line = 0
-
-let textInterval = setInterval(() => {
-	if (line < msgLineByLine.length) {
-		document.querySelector('pre').innerText += '\n' + msgLineByLine[line]
-		line++
-	} else {
-		clearInterval(textInterval)
+	for (let i = 0; i < splitMsg.length; i++) {
+		if (splitMsg[i] === ' ' && /\s+/.test(splitMsg[i - 1])) {
+			splitMsg[i - 1] += ' '
+			splitMsg.splice(i, 1)
+			i--
+		}
 	}
-}, 100)
+
+	return splitMsg
+}
+
+function typeMsg(msgArray) {
+	if (letter < msgArray.length) {
+		preElement.innerText += msgArray[letter]
+		letter++
+		return requestAnimationFrame(() => typeMsg(msgArray))
+	}
+}
+
+let letter = 0
+typeMsg(groupWhiteSpaces(msg1))
