@@ -146,7 +146,8 @@ function typeMsg(chunkedMsg) {
 		return requestAnimationFrame(() => typeMsg(chunkedMsg))
 	}
 	currLetter = 0
-	if (currMsg < messages.length - 1) {
+	currMsg++
+	if (currMsg < messages.length) {
 		return setTimeout(deleteMsg, 1000)
 	}
 	revealReplay()
@@ -157,7 +158,6 @@ function deleteMsg() {
 		asciiText.innerText = asciiText.innerText.slice(0, -50)
 		return requestAnimationFrame(deleteMsg)
 	}
-	currMsg++
 	if (currMsg < messages.length) {
 		return typeMsg(messages[currMsg])
 	}
@@ -178,11 +178,10 @@ function hideReplay() {
 }
 
 function replay() {
-	hideReplay()
 	currMsg = 0
 	currLetter = 0
-	asciiText.innerText = ''
-	typeMsg(messages[currMsg])
+	hideReplay()
+	deleteMsg()
 }
 
 typeMsg(messages[currMsg])
