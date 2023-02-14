@@ -3,7 +3,6 @@
 //  panda ASCII art from https://ascii.co.uk/art/bears
 
 const preElement = document.querySelector('pre')
-
 const messages = [
 	`          
 8 8888           8 8888         ,o888888o.  \`8.\`888b           ,8' 8 8888888888             \`8.\`8888.      ,8'  ,o888888o.     8 8888      88 
@@ -30,7 +29,7 @@ const messages = [
                    8b   \`8.\`8888. 8      \`Y8o. \`Y8 8 8888         8 8888        8   .8'   \`8. \`88888.          oo                             
                    \`8b.  ;8.\`8888 8         \`Y8o.\` 8 8888         8 8888        8  .888888888. \`88888.        o88o                          
                     \`Y8888P ,88P' 8            \`Yo 8 888888888888 8 8888        8 .8'       \`8. \`88888.        oo`,
-	`XOXOXOXOXOXOXOXOXOXOXOXOXOXOXOXOXOXOXOXOXOXOXOXOXOXOXOXOX
+	`                    XOXOXOXOXOXOXOXOXOXOXOXOXOXOXOXOXOXOXOXOXOXOXOXOXOXOXOXOX
                     O:::::::::::::::::::::::::::::::::::::::::::::::::::::::O
                     X:::::::::::::::::::::::::::::::::::::::::::::::::::::::X
                     O::::::::::::           :::::::::           ::::::::::::O
@@ -54,7 +53,7 @@ const messages = [
                     O:::::::::::::::::::::::::::::::::::::::::::::::::::::::O
                     X:::::::::::::::::::::::::::::::::::::::::::::::::::::::X
                     OXOXOXOXOXOXOXOXOXOXOXOXOXOXOXOXOXOXOXOXOXOXOXOXOXOXOXOXO`,
-	`,ggg,      gg      ,gg                                                                                                                   
+	`                    ,ggg,      gg      ,gg                                                                                                                   
                     dP\"\"Y8a     88     ,8P       ,dPYb, ,dPYb,                                             ,dPYb,                                     
                     Yb, \`88     88     d8'       IP'\`Yb IP'\`Yb                                             IP'\`Yb                                    
                      \`\"  88     88     88   gg   I8  8I I8  8I                                             I8  8I                                    
@@ -118,7 +117,10 @@ const messages = [
                                                        :::::'                              \`\"\"\":::::\"'
                                            
                                            `,
-]
+].map((msg) => groupWhiteSpaces(msg))
+
+let currMsg = 0
+let currLetter = 0
 
 function groupWhiteSpaces(msg) {
 	const splitMsg = msg.split('')
@@ -140,15 +142,24 @@ function typeMsg(chunkedMsg) {
 		currLetter++
 		return requestAnimationFrame(() => typeMsg(chunkedMsg))
 	}
+	currLetter = 0
+	if (currMsg < messages.length - 1) {
+		return setTimeout(deleteMsg, 1000)
+	}
 }
 
 function deleteMsg() {
 	if (preElement.innerText) {
 		preElement.innerText = preElement.innerText.slice(0, -50)
-		requestAnimationFrame(deleteMsg)
+		return requestAnimationFrame(deleteMsg)
+	}
+	currMsg++
+	messageSequence()
+}
+function messageSequence() {
+	if (currMsg < messages.length) {
+		return typeMsg(messages[currMsg])
 	}
 }
 
-let currLetter = 0
-
-typeMsg(groupWhiteSpaces(messages[0]))
+messageSequence()
