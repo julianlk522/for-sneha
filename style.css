@@ -13,7 +13,9 @@ body {
 }
 body {
 	line-height: 1.5;
+	position: relative;
 	display: flex;
+	flex-direction: column;
 }
 
 pre {
@@ -21,6 +23,32 @@ pre {
 	width: min-content;
 	margin: auto;
 	font-size: 0.25rem;
+}
+
+#replay {
+	position: absolute;
+	top: 3%;
+	right: 3%;
+	padding: 0.5rem;
+	border: none;
+	outline: 2px solid rgb(255 255 255 / 25%);
+	border-radius: 0.25rem;
+	color: rgb(255 255 255 / 90%);
+	background-color: transparent;
+	opacity: 0;
+	pointer-events: none;
+	cursor: pointer;
+	transition: opacity 1s, color 0.25s, background-color 0.25s, outline 0.25s,
+		font-size 0.25s;
+	transition-timing-function: ease-out;
+}
+
+#replay:hover {
+	color: rgb(0 0 0 / 90%);
+	background-color: rgb(255 255 255 / 75%);
+	outline: 2px solid rgb(255 255 255 / 90%);
+	font-weight: bold;
+	font-size: 1.1rem;
 }
 
 @media (min-width: 700px) {

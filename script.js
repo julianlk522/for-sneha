@@ -2,7 +2,10 @@
 //  heart ASCII art from http://loveascii.com/hearts.html
 //  panda ASCII art from https://ascii.co.uk/art/bears
 
-const preElement = document.querySelector('pre')
+const asciiText = document.querySelector('pre')
+const replayButton = document.getElementById('replay')
+replayButton.addEventListener('click', replay)
+
 const messages = [
 	`          
 8 8888           8 8888         ,o888888o.  \`8.\`888b           ,8' 8 8888888888             \`8.\`8888.      ,8'  ,o888888o.     8 8888      88 
@@ -138,7 +141,7 @@ function groupWhiteSpaces(msg) {
 
 function typeMsg(chunkedMsg) {
 	if (currLetter < chunkedMsg.length) {
-		preElement.innerText += chunkedMsg[currLetter]
+		asciiText.innerText += chunkedMsg[currLetter]
 		currLetter++
 		return requestAnimationFrame(() => typeMsg(chunkedMsg))
 	}
@@ -146,20 +149,40 @@ function typeMsg(chunkedMsg) {
 	if (currMsg < messages.length - 1) {
 		return setTimeout(deleteMsg, 1000)
 	}
+	revealReplay()
 }
 
 function deleteMsg() {
-	if (preElement.innerText) {
-		preElement.innerText = preElement.innerText.slice(0, -50)
+	if (asciiText.innerText) {
+		asciiText.innerText = asciiText.innerText.slice(0, -50)
 		return requestAnimationFrame(deleteMsg)
 	}
 	currMsg++
-	messageSequence()
-}
-function messageSequence() {
 	if (currMsg < messages.length) {
 		return typeMsg(messages[currMsg])
 	}
 }
 
-messageSequence()
+function revealReplay() {
+	requestAnimationFrame(() => {
+		replayButton.style.pointerEvents = 'auto'
+		replayButton.style.opacity = '1'
+	})
+}
+
+function hideReplay() {
+	requestAnimationFrame(() => {
+		replayButton.style.pointerEvents = 'none'
+		replayButton.style.opacity = '0'
+	})
+}
+
+function replay() {
+	hideReplay()
+	currMsg = 0
+	currLetter = 0
+	asciiText.innerText = ''
+	typeMsg(messages[currMsg])
+}
+
+typeMsg(messages[currMsg])
